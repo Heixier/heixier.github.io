@@ -1,16 +1,147 @@
 <!DOCTYPE html>
-
-<html>
-  <title>Hello world</title>
-  <body>
-    <h1>Introduction</h1>
-    <p>This is a website</p>
-    <h1>Input test</h1>
-    <p>Do I need this paragraph?</p>
-    <input
-      type="number"
-      id="number_input_1"
-      placeholder="Enter a number here"
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no"
     />
+    <title>Text Display</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: Arial, sans-serif;
+        background-color: black;
+        color: white;
+        height: 100vh;
+        overflow: hidden;
+      }
+      .container {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+      .input-section {
+        padding: 10px;
+        background-color: #333;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      #textInput {
+        flex: 1;
+        padding: 10px;
+        font-size: 16px;
+        border: none;
+        border-radius: 4px;
+        background-color: white;
+        color: black;
+      }
+      .btn {
+        padding: 10px 15px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+      }
+      .btn:hover {
+        background-color: #0056b3;
+      }
+      .display-section {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+      #displayText {
+        font-weight: bold;
+        text-align: center;
+        word-break: break-word;
+        line-height: 1.2;
+        max-width: 100%;
+        max-height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      @media (max-width: 600px) {
+        .input-section {
+          flex-wrap: wrap;
+        }
+        .btn {
+          font-size: 12px;
+          padding: 8px 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="input-section">
+        <input
+          type="text"
+          id="textInput"
+          placeholder="Enter your message..."
+          autofocus
+        />
+        <button class="btn" onclick="clearDisplay()">Clear</button>
+      </div>
+      <div class="display-section">
+        <div id="displayText"></div>
+      </div>
+    </div>
+    <script>
+      function updateDisplay() {
+        const input = document.getElementById("textInput");
+        const display = document.getElementById("displayText");
+        const text = input.value.trim() || "";
+        display.textContent = text;
+        adjustFontSize();
+      }
+
+      function clearDisplay() {
+        const input = document.getElementById("textInput");
+        const display = document.getElementById("displayText");
+        input.value = "";
+        display.textContent = "";
+        adjustFontSize();
+      }
+
+      function adjustFontSize() {
+        const display = document.getElementById("displayText");
+        const container = display.parentElement;
+        display.style.fontSize = "10vw";
+        let fontSize = Math.min(
+          (container.clientWidth / (display.textContent.length || 1)) * 1.5,
+          container.clientHeight * 0.8,
+          200
+        );
+        fontSize = Math.max(fontSize, 20);
+        display.style.fontSize = fontSize + "px";
+      }
+
+      document
+        .getElementById("textInput")
+        .addEventListener("input", updateDisplay);
+
+      document
+        .getElementById("textInput")
+        .addEventListener("keypress", function (e) {
+          if (e.key === "Enter") {
+            updateDisplay();
+            this.blur();
+          }
+        });
+
+      window.addEventListener("resize", adjustFontSize);
+      window.addEventListener("load", adjustFontSize);
+    </script>
   </body>
 </html>
