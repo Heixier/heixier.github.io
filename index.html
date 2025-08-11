@@ -59,6 +59,7 @@
         align-items: center;
         justify-content: center;
         padding: 20px;
+        position: relative;
       }
       #displayText {
         font-weight: bold;
@@ -71,6 +72,17 @@
         align-items: center;
         justify-content: center;
       }
+      
+      /* Hide input functionality - just 4 lines! */
+      .hide-input .input-section {
+        display: none;
+      }
+      .toggle-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+      }
+      
       @media (max-width: 600px) {
         .input-section {
           flex-wrap: wrap;
@@ -92,8 +104,10 @@
           autofocus
         />
         <button class="btn" onclick="clearDisplay()">Clear</button>
+        <button class="btn" onclick="toggleInput()">Hide Input</button>
       </div>
       <div class="display-section">
+        <button class="btn toggle-btn" onclick="toggleInput()" style="display: none;">Show Input</button>
         <div id="displayText"></div>
       </div>
     </div>
@@ -125,6 +139,17 @@
         );
         fontSize = Math.max(fontSize, 20);
         display.style.fontSize = fontSize + "px";
+      }
+
+      // Added toggle functionality - just 8 lines!
+      function toggleInput() {
+        const container = document.querySelector('.container');
+        const toggleBtn = document.querySelector('.toggle-btn');
+        
+        container.classList.toggle('hide-input');
+        toggleBtn.style.display = container.classList.contains('hide-input') ? 'block' : 'none';
+        
+        adjustFontSize(); // Recalculate since display area changed
       }
 
       document
