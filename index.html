@@ -7,9 +7,6 @@
       content="width=device-width, initial-scale=1.0, user-scalable=no"
     />
     <title>Text Display</title>
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Text Display">
     <style>
       * {
         margin: 0;
@@ -21,7 +18,14 @@
         background-color: black;
         color: white;
         height: 100vh;
-        overflow: hidden;
+        overflow: auto; /* Changed from hidden to auto */
+      }
+      
+      /* Create fake content above viewport to trigger scroll hide */
+      body::before {
+        content: '';
+        display: block;
+        height: 1px;
       }
       .container {
         height: 100vh;
@@ -169,7 +173,13 @@
         });
 
       window.addEventListener("resize", adjustFontSize);
-      window.addEventListener("load", adjustFontSize);
+      window.addEventListener("load", function() {
+        adjustFontSize();
+        // Trick browser into hiding address bar
+        setTimeout(() => {
+          window.scrollTo(0, 1);
+        }, 100);
+      });
     </script>
   </body>
 </html>
